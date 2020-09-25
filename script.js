@@ -9,7 +9,7 @@ var criteria = {
     num: ["0", "1", "2","3", "4", "5", "6", "7", "8", "9"],
     specChar: ["!", "@", "#"]
 }
-
+var generateBtn = document.querySelector("#generate");
 var confirmLength = "";
 var confirmSpecialCharacter;
 var confirmNumericCharacter;
@@ -60,21 +60,28 @@ var getPasswordOptions = {
     console.log(confirmSpecialCharacter);
         if (confirmSpecialCharacter === true){
         } else {
+
                 alert("You need to use at least 1 special character.");
                 return;
+
         }
+
    if (confirmLowerCase === false && confirmUpperCase === false && confirmNumericCharacter === false && confirmNumericCharacter){
        alert("Password must contain a lowercase value, uppercase value, numeric value and a special character");
        return;
+
    }
+
    var passOptions={
-       confirmLong,
-       confirmLow, 
-       confirmCap,
-       confirmNumeric,
-       confirmSpecial,
+       confirmLength: confirmLength,
+       confirmLowerCase: confirmLowerCase,
+       confirmUpperCase: confirmUpperCase,
+       confirmNumericCharacter: confirmNumericCharacter,
+       confirmSpecialCharacter: confirmSpecialCharacter,
    }
+
    return passOptions
+
 }
 
 function myLoop(arr){
@@ -85,11 +92,45 @@ function myLoop(arr){
 
 function passGen(){
     var options = getCriteria();
-    var result = []
-    var possibleChar = []
-    var guaranteedChar = []
+    var result = [];
+    var possibleChar = [];
+    var guaranteedChar = [];
+    if (options.confirmLowerCase === true){
+        possibleChar = possibleChar.concat(criteria.lowletters)
+        guaranteedChar.push(myLoop(criteria.lowletters))
+    }
+    if (options.confirmUpperCase === true){
+        possibleChar = possibleChar.concat(criteria.capLetters)
+        guaranteedChar.push(myLoop(criteria.capLetters))
+    }
+    if (options.confirmNumericCharacter === true){
+        possibleChar = possibleChar.concat(criteria.num)
+        guaranteedChar.push(myLoop(criteria.num))
+    }
+    if (options.confirmSpecialCharacter === true){
+        possibleChar = possibleChar.concat(criteria.specChar)
+        guaranteedChar.push(myLoop(criteria.specChar))
+    }
+    for (var i=0; i < options.confirmLength; i++) {
+        result.push(myLoop(possibleChar));
+      }
+    for (var i = 0; i < options.length; i++) {
+      var possibleChar = myLoop(possibleChar);
+      result.push(possibleChar);
+      }
+    for (var i = 0; i < guaranteedChar.length; i++) {
+      result[i] = guaranteedChar[i];
+      }
+    return result.join('');
 }
 
 
+
     
-getCriteria();
+function writePassword() {
+    var password = passGen();
+    var passwordText = document.querySelector("#password");
+    passwordText.value = password;
+  }
+
+  generateBtn.addEventListener("click", writePassword);
