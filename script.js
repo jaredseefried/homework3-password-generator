@@ -1,14 +1,5 @@
-// define password criteria
+// Global Variables
 
-// Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
-
-var criteria = {
-    lowletters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-    capLetters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-    num: ["0", "1", "2","3", "4", "5", "6", "7", "8", "9"],
-    specChar: ["!", "@", "#"]
-}
 var generateBtn = document.querySelector("#generate");
 var confirmLength = "";
 var confirmSpecialCharacter;
@@ -17,6 +8,13 @@ var confirmUpperCase;
 var confirmLowerCase;
 var generatePassword;
 
+var criteria = {
+    lowletters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+    capLetters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+    num: ["0", "1", "2","3", "4", "5", "6", "7", "8", "9"],
+    specChar: ["!", "@", "#"]
+}
+
 var getPasswordOptions = {
     confirmLowerCase: confirmLowerCase,
     confirmUpperCase: confirmUpperCase,
@@ -24,72 +22,53 @@ var getPasswordOptions = {
     confirmSpecialCharacter: confirmSpecialCharacter
     }
 
-
+// Function getCriteria() - The user will enter the length they would like their password to be
+// The criteria will meet requirements with lowercase, uppercase, numeric and special characters. 
  function getCriteria (){
-    var confirmLength = prompt("Choose between 8 and 128 characters");
+    var confirmLowerCase = true;
+    console.log(confirmLowerCase);
+
+    var confirmUpperCase = true;
+    console.log(confirmUpperCase); 
+
+    var confirmNumericCharacter = true;
+    console.log(confirmNumericCharacter); 
+
+    var confirmSpecialCharacter = true;
+    console.log(confirmSpecialCharacter);
+   
+    //User enters Length of password - between 8 and 128 characters
+    var confirmLength = prompt("How long would you like your password to be? Min:8 Max:128");
     console.log(confirmLength);
         if (confirmLength < 8 || confirmLength > 128){
-            alert("please enter a number between 8 and 128 charcters");
-            return;
-        } 
+            alert("Please enter a number between 8 and 128 charcters. Click on Generate Password to Try again.");
+            return confirmLength;
+        }
         if (isNaN(confirmLength)===true){ 
             alert("Password length must be a numerical value from to 128 characters. ")
         }
-    var confirmLowerCase = confirm("Will you use lower case characters for your password");
-    console.log(confirmLowerCase);
-        if (confirmLowerCase === true){ 
-        } else {
-            alert("Please use lower characters for your password");
-            return;
-        }
-    var confirmUpperCase = confirm("Will you use Upper case characters for your password");
-    console.log(confirmUpperCase);
-        if (confirmUpperCase === true){
-        } else {
-            alert("You need to use at least 1 upper case character");
-            return;
-        }
-    var confirmNumericCharacter = confirm("Will you be using numerical characters for your password?");
-    console.log(confirmNumericCharacter);
-        if (confirmNumericCharacter === true){
-        } else {
-            alert("You need to use at least 1 numeric character");
-            return;
-        }
-    var confirmSpecialCharacter = confirm("Will you be using special characters for your password?");
-    console.log(confirmSpecialCharacter);
-        if (confirmSpecialCharacter === true){
-        } else {
-
-                alert("You need to use at least 1 special character.");
-                return;
-
-        }
-
-   if (confirmLowerCase === false && confirmUpperCase === false && confirmNumericCharacter === false && confirmNumericCharacter){
-       alert("Password must contain a lowercase value, uppercase value, numeric value and a special character");
-       return;
-
-   }
-
-   var passOptions={
+    
+    var passOptions={
        confirmLength: confirmLength,
        confirmLowerCase: confirmLowerCase,
        confirmUpperCase: confirmUpperCase,
        confirmNumericCharacter: confirmNumericCharacter,
        confirmSpecialCharacter: confirmSpecialCharacter,
-   }
+    }
 
    return passOptions
 
 }
+//End Criteria function
 
+//Loop
 function myLoop(arr){
     var randomIndex = Math.floor(Math.random()*arr.length);
     var randomEl = arr[randomIndex]
     return randomEl
 }
 
+//Function to Generate Password that meet the requirements. 
 function passGen(){
     var options = getCriteria();
     var result = [];
@@ -123,14 +102,14 @@ function passGen(){
       }
     return result.join('');
 }
+//End Function
 
-
-
-    
+//Function to show password in #password element 
 function writePassword() {
     var password = passGen();
     var passwordText = document.querySelector("#password");
     passwordText.value = password;
   }
 
+  //The browser waits for a user to click the button
   generateBtn.addEventListener("click", writePassword);
