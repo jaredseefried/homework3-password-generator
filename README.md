@@ -10,4 +10,6 @@ The password is to include:
     5. Special Characters. 
 
 
-Website: 
+Link to site. https://jaredseefried.github.io/homework3-password-generator/ 
+
+![Screenshot of Password Generator](./assets/images/screenshot.jpg)
